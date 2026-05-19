@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OILive - ระบบรับซื้อน้ำมันใช้แล้ว</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="logo-block">
+          <div class="oil-bottle" aria-hidden="true">
+            <span class="cap"></span>
+            <span class="body"></span>
+            <span class="label"></span>
+          </div>
+          <div>
+            <h1>OILive</h1>
+            <p>เปลี่ยนน้ำมันเก่า ให้มีมูลค่าและปลอดภัยต่อสิ่งแวดล้อม</p>
+          </div>
+        </div>
+        <div class="topbar-actions">
+          <button class="ghost logout-btn hidden" id="logout-btn" type="button">ออกจากระบบ</button>
+          <button class="menu-btn hidden" id="menu-btn" type="button" aria-label="เปิดเมนู" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
+
+      <div class="nav-overlay hidden" id="nav-overlay"></div>
+      <nav class="main-nav hidden" id="main-nav">
+        <div class="main-nav-head">
+          <strong>เมนู</strong>
+          <button class="nav-close" id="nav-close-btn" type="button" aria-label="ปิดเมนู">×</button>
+        </div>
+        <button class="nav-btn admin-only" data-page="admin-overview">ภาพรวม</button>
+        <button class="nav-btn admin-only" data-page="admin-requests">จัดการคำขอ</button>
+        <button class="nav-btn admin-only" data-page="admin-members">สมาชิก</button>
+        <button class="nav-btn admin-only" data-page="admin-transactions">ธุรกรรม</button>
+        <button class="nav-btn" data-page="agreement">ข้อตกลง</button>
+        <button class="nav-btn" data-page="home">หน้าหลัก</button>
+        <button class="nav-btn collector-only" data-page="tracking">แผนที่งาน</button>
+        <button class="nav-btn collector-only" data-page="collector-status">สถานะ</button>
+        <button class="nav-btn user-only" data-page="sell">ขายน้ำมัน</button>
+        <button class="nav-btn user-only" data-page="bill">สรุปยอด</button>
+        <button class="nav-btn user-only" data-page="status">ตรวจสอบสถานะ</button>
+        <button class="nav-btn" data-page="history">ประวัติ</button>
+        <button class="nav-btn" data-page="profile">โปรไฟล์</button>
+      </nav>
+
+      <main>
+        <section class="page active" id="page-entry">
+          <div class="entry-stage">
+            <div class="entry-hero-space"></div>
+            <div class="form-card auth-card">
+              <div class="auth-switch hidden">
+                <button class="auth-tab" data-auth="register" type="button" id="register-tab-btn">สมัครสมาชิก</button>
+                <button class="auth-tab active" data-auth="login" type="button">เข้าสู่ระบบ</button>
+              </div>
+              <div class="auth-panel" id="auth-register">
+                <h3 id="register-title" class="auth-main-title">สร้างบัญชีใหม่</h3>
+                <form id="register-form" novalidate>
+                  <div class="grid two">
+                    <label>ชื่อ<input name="firstName" required /></label>
+                    <label>นามสกุล<input name="lastName" required /></label>
+                  </div>
+                  <label>เบอร์โทรศัพท์<input name="phone" required maxlength="10" /></label>
+                  <label>รหัสผ่าน<input type="password" name="password" required /></label>
+                  <label>ยืนยันรหัสผ่าน<input type="password" name="confirmPassword" required /></label>
+                  <div class="collector-extra hidden">
+                    <div class="grid two">
+                      <label>วันทำงาน
+                        <select name="workDay">
+                          <option value="">เลือกวัน</option>
+                          <option>จันทร์-เสาร์</option>
+                          <option>ทุกวัน</option>
+                          <option>ศุกร์-อาทิตย์</option>
+                        </select>
+                      </label>
+                      <label>เขตที่ให้บริการ<input name="serviceArea" /></label>
+                    </div>
+                    <div class="grid two">
+                      <label>ทะเบียนรถ<input name="plate" /></label>
+                      <label>จังหวัดทะเบียนรถ<input name="plateProvince" /></label>
+                    </div>
+                  </div>
+                  <div class="grid two">
+                    <label>เลขบัญชี<input name="bankAccount" required /></label>
+                    <label>ธนาคาร
+                      <select name="bank" required>
+                        <option value="">เลือกธนาคาร</option>
+                        <option>กสิกรไทย</option>
+                        <option>กรุงไทย</option>
+                        <option>ไทยพาณิชย์</option>
+                        <option>กรุงเทพ</option>
+                        <option>กรุงศรี</option>
+                      </select>
+                    </label>
+                  </div>
+
+                  <div class="address-block user-address">
+                    <div class="address-head">
+                      <h4>ที่อยู่หลักสำหรับใช้งาน</h4>
+                      <div class="address-tools">
+                        <button class="ghost" id="use-current-location" type="button">ตำแหน่งฉันตอนนี้</button>
+                        <button class="ghost" id="use-register-map-pin" type="button">ปักหมุดแล้วกรอกอัตโนมัติ</button>
+                      </div>
+                    </div>
+                    <div class="signup-map-wrap">
+                      <div id="register-map" class="signup-map"></div>
+                      <p class="map-caption" id="register-map-msg">ลากหมุดบนแผนที่เพื่อกรอกที่อยู่อัตโนมัติ</p>
+                    </div>
+                    <div class="grid two">
+                      <label>บ้านเลขที่<input name="houseNo" required /></label>
+                      <label>ถนน/ซอย<input name="road" required /></label>
+                    </div>
+                    <div class="grid two">
+                      <label>แขวง/เขต<input name="subdistrict" required /></label>
+                      <label>จังหวัด<input name="province" required /></label>
+                    </div>
+                    <div class="grid two">
+                      <label>รหัสไปรษณีย์<input name="postcode" required maxlength="5" /></label>
+                    </div>
+                  </div>
+
+                  <button class="cta" type="submit">สร้างบัญชีใหม่</button>
+                  <button class="ghost secondary-auth-btn" id="back-login-btn" type="button">กลับไปเข้าสู่ระบบ</button>
+                  <p class="form-msg" id="register-msg"></p>
+                </form>
+              </div>
+              <div class="auth-panel active" id="auth-login">
+                  <h3 id="login-title" class="auth-main-title">เข้าสู่ระบบ</h3>
+                  <form id="login-form" novalidate>
+                    <label id="login-identifier-label">เบอร์โทรศัพท์หรือชื่อผู้ใช้<input name="identifier" required maxlength="50" placeholder="กรอกเบอร์โทรศัพท์หรือชื่อผู้ใช้งาน" /></label>
+                    <label>รหัสผ่าน<input type="password" name="password" required placeholder="กรอกรหัสผ่าน" /></label>
+                    <button class="forgot-inline-btn" id="forgot-password-btn" type="button">ลืมรหัสผ่าน</button>
+                    <button class="cta" type="submit">เข้าสู่ระบบ</button>
+                    <p class="map-caption hidden" id="collector-login-hint"></p>
+                    <button class="ghost secondary-auth-btn" id="open-register-btn" type="button">สร้างบัญชีใหม่</button>
+                    <p class="form-msg" id="login-msg"></p>
+                  </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-home">
+          <div class="panel">
+            <div class="home-hero-banner">
+              <div class="home-hero-top">
+                <div class="hero-bottle-lg" aria-hidden="true">
+                  <span class="cap"></span>
+                  <span class="body"></span>
+                  <span class="label"></span>
+                </div>
+                <div class="home-hero-copy">
+                  <h2>OILive</h2>
+                  <p>แพลตฟอร์มรับซื้อน้ำมันใช้แล้วแบบเป็นระบบ ปลอดภัย และตรวจสอบได้</p>
+                </div>
+                <div class="hero-side-icons" aria-hidden="true">
+                  <span>🚚</span>
+                  <span>🏭</span>
+                </div>
+              </div>
+              <button class="cta home-call-btn user-only" data-jump="sell">เรียกรับน้ำมัน</button>
+              <button class="cta home-call-btn collector-only" data-jump="tracking">ไปหน้ารับงาน</button>
+            </div>
+
+            <div class="home-grid">
+              <div class="card price-card">
+                <h3>ราคาน้ำมันวันนี้</h3>
+                <div class="price-row">
+                  <strong class="price-big"><span id="price-display">11</span> ฿/L</strong>
+                </div>
+                <p class="price-note">ราคาอาจมีการปรับเปลี่ยนตามรอบรับซื้อ</p>
+              </div>
+              <div class="card prep-card">
+                <h3>4 ขั้นตอนเตรียมน้ำมันก่อนขาย</h3>
+                <div class="prep-grid">
+                  <div class="prep-item"><span class="icon">🧊</span><p>ปล่อยให้น้ำมันเย็นก่อนเก็บ</p></div>
+                  <div class="prep-item"><span class="icon">🧽</span><p>กรองเศษอาหารออก</p></div>
+                  <div class="prep-item"><span class="icon">🫙</span><p>เทใส่ขวดสะอาด ปิดฝาแน่น</p></div>
+                  <div class="prep-item"><span class="icon">📦</span><p>เก็บในที่แห้ง รอรถเข้ารับ</p></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-sell">
+          <div class="panel split">
+            <div class="left">
+              <h2>แจ้งรับซื้อน้ำมัน</h2>
+              <form id="sell-form" novalidate>
+                <label>ประเภทน้ำมัน
+                  <select name="oilType" required>
+                    <option value="">เลือกประเภท</option>
+                    <option>พืช</option>
+                    <option>สัตว์</option>
+                    <option>ผสม</option>
+                  </select>
+                </label>
+                <label>ปริมาตรโดยประมาณ (ลิตร)<input type="number" name="volume" min="1" step="0.1" required /></label>
+                <label>แนบรูปภาพน้ำมัน/ภาชนะ<input type="file" name="image" accept="image/*" /></label>
+
+                <div class="address-block">
+                  <div class="address-head">
+                    <h4>จุดรับน้ำมัน</h4>
+                    <button class="ghost" type="button" id="use-profile-address">ดึงจากที่อยู่สมาชิก</button>
+                  </div>
+                  <div class="grid two">
+                    <label>ประเภทจุดรับ
+                      <select name="pickupType" required>
+                        <option>หน้าบ้าน</option>
+                        <option>นัดรับที่จุดอื่น</option>
+                        <option>พิกัดบนแผนที่</option>
+                      </select>
+                    </label>
+                    <label>บ้านเลขที่/ถนน<input name="pickupStreet" required /></label>
+                  </div>
+                  <div class="grid three">
+                    <label>แขวง/ตำบล<input name="pickupSubdistrict" required /></label>
+                    <label>เขต/อำเภอ<input name="pickupDistrict" required /></label>
+                    <label>หมายเหตุจุดรับ<input name="pickupNote" /></label>
+                  </div>
+                  <div class="grid two">
+                    <label>วันสะดวก<input type="date" name="pickupDate" required /></label>
+                    <label>เวลาสะดวก<input type="time" name="pickupTime" required /></label>
+                  </div>
+                </div>
+
+                <button class="cta" type="submit">สร้างคำขอรับซื้อ</button>
+                <p class="form-msg" id="sell-msg"></p>
+              </form>
+            </div>
+            <div class="right">
+              <div class="status-card">
+                <h3>คำขอล่าสุด</h3>
+                <div id="latest-request">
+                  <p>ยังไม่มีคำขอ</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-bill">
+          <div class="panel">
+            <h2>สรุปยอด</h2>
+            <div class="bill-box">
+              <div class="row"><span>ประเภทน้ำมัน</span><strong id="bill-oil-type">-</strong></div>
+              <div class="row"><span>ปริมาณ (ลิตร)</span><strong id="bill-weight">-</strong></div>
+              <div class="row"><span>ราคาต่อหน่วย</span><strong id="bill-price">11 ฿/ลิตร</strong></div>
+              <div class="row"><span>หมายเหตุ</span><strong id="bill-note">-</strong></div>
+              <div class="row"><span>ช่องทางรับเงิน</span><strong id="bill-bank">-</strong></div>
+              <div class="row"><span>แต้มสะสม</span><strong id="bill-points">0 แต้ม</strong></div>
+              <div class="total-row"><span>ยอดรวม</span><strong id="bill-total">0.00 ฿</strong></div>
+            </div>
+            <button class="cta" id="confirm-bill">ยืนยันการขาย</button>
+            <p class="form-msg" id="bill-msg"></p>
+          </div>
+        </section>
+
+        <section class="page user-only" id="page-status">
+          <div class="panel">
+            <h2>ตรวจสอบสถานะ</h2>
+            <div class="status-card">
+              <p>เลขอ้างอิงล่าสุด: <strong id="ref-code">-</strong></p>
+              <ul class="timeline" id="timeline">
+                <li>รอตรวจสอบ</li>
+                <li>รอรับซื้อ</li>
+                <li>กำลังเดินทาง</li>
+                <li>รับซื้อสำเร็จ</li>
+                <li>โอนเงินแล้ว</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-tracking">
+          <div class="panel split">
+            <div class="left">
+              <h2>แผนที่งานรับซื้อ</h2>
+              <div class="map-tools">
+                <small id="map-msg">กำลังโหลด Google Maps อัตโนมัติ</small>
+              </div>
+              <div class="map-mock" id="google-map">
+                <div class="route"></div>
+                <div class="pin p1"></div>
+                <div class="pin p2"></div>
+                <div class="pin p3"></div>
+              </div>
+              <div class="route-info" id="route-info">เลือกงานจากรายการด้านขวาเพื่อคำนวณเส้นทาง</div>
+            </div>
+            <div class="right">
+              <div class="status-card">
+                <h3>รายการรับซื้อประจำวัน</h3>
+                <div id="collector-orders" class="orders"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page collector-only" id="page-collector-status">
+          <div class="panel">
+            <h2>สถานะงานปัจจุบัน</h2>
+            <div id="collector-status-list" class="orders"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-admin-overview">
+          <div class="panel">
+            <h2>ภาพรวม</h2>
+            <h3 class="admin-subtitle">ภาพรวมเชิงลึกระบบ</h3>
+            <div class="admin-stats" id="admin-stats"></div>
+            <div class="admin-section">
+              <div class="section-head">
+                <h3>คำขอล่าสุด</h3>
+              </div>
+              <div class="admin-list" id="admin-overview-latest"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-admin-requests">
+          <div class="panel">
+            <h2>จัดการคำขอ</h2>
+            <div class="admin-section">
+              <div class="admin-filter-grid">
+                <label>ค้นหา
+                  <select id="admin-request-search-type">
+                    <option value="day">วัน</option>
+                    <option value="id">เลขคำขอ</option>
+                    <option value="seller">ผู้ขาย</option>
+                  </select>
+                </label>
+                <label>ค่า
+                  <input id="admin-request-search-value" placeholder="เช่น 24/4/2569 หรือ JOB-001" />
+                </label>
+                <label>สถานะคำขอ
+                  <select id="admin-request-status">
+                    <option value="all">ทั้งหมด</option>
+                    <option value="รอตรวจสอบ">รอตรวจสอบ</option>
+                    <option value="รอรับซื้อ">รอรับซื้อ</option>
+                    <option value="กำลังเดินทาง">กำลังเดินทาง</option>
+                    <option value="รับซื้อสำเร็จ">รับซื้อสำเร็จ</option>
+                    <option value="โอนเงินแล้ว">โอนเงินแล้ว</option>
+                    <option value="ไม่พบผู้ใช้">ไม่พบผู้ใช้</option>
+                  </select>
+                </label>
+                <label>พื้นที่
+                  <select id="admin-request-zone">
+                    <option value="all">ทุกพื้นที่</option>
+                    <option value="สุขุมวิท">สุขุมวิท</option>
+                    <option value="ลาดพร้าว">ลาดพร้าว</option>
+                    <option value="รามคำแหง">รามคำแหง</option>
+                  </select>
+                </label>
+              </div>
+              <div class="admin-filter-actions">
+                <button class="ghost" id="admin-request-search-btn" type="button">กรองข้อมูล</button>
+                <button class="ghost" id="admin-request-reset-btn" type="button">ล้างตัวกรอง</button>
+              </div>
+              <div class="admin-list" id="admin-requests-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-admin-members">
+          <div class="panel">
+            <h2>สมาชิก</h2>
+            <div class="admin-section">
+              <h3 class="admin-section-title">จัดการสมาชิกและผู้รับงาน</h3>
+              <div class="admin-list" id="admin-members-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="page" id="page-admin-transactions">
+          <div class="panel">
+            <h2>ธุรกรรม</h2>
+            <div class="admin-list" id="admin-transactions-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-history">
+          <div class="panel">
+            <h2>ประวัติ</h2>
+            <div id="history-list" class="history-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-profile">
+          <div class="panel">
+            <h2>โปรไฟล์</h2>
+            <div id="profile-view" class="profile-view"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-edit-profile">
+          <div class="panel">
+            <h2>แก้ไขโปรไฟล์</h2>
+            <form id="edit-profile-form" class="form-card" novalidate>
+              <label>ชื่อ<input name="firstName" /></label>
+              <label>นามสกุล<input name="lastName" /></label>
+              <label>เบอร์โทรศัพท์<input name="phone" maxlength="20" /></label>
+              <div class="grid two">
+                <label>ธนาคาร<input name="bank" /></label>
+                <label>เลขบัญชี<input name="bankAccount" /></label>
+              </div>
+              <div class="grid two">
+                <label>บ้านเลขที่<input name="houseNo" /></label>
+                <label>ถนน/ซอย<input name="road" /></label>
+              </div>
+              <div class="grid two">
+                <label>แขวง/เขต<input name="subdistrict" /></label>
+                <label>จังหวัด<input name="province" /></label>
+              </div>
+              <div class="grid two">
+                <label>รหัสไปรษณีย์<input name="postcode" maxlength="5" /></label>
+                <label>เขตที่ให้บริการ<input name="serviceArea" /></label>
+              </div>
+              <div class="grid two">
+                <label>ทะเบียนรถ<input name="plate" /></label>
+                <label>จังหวัดทะเบียนรถ<input name="plateProvince" /></label>
+              </div>
+              <label>วันทำงาน<input name="workDay" /></label>
+              <button class="cta" type="submit">บันทึกโปรไฟล์</button>
+              <button class="ghost secondary-auth-btn" id="cancel-edit-profile" type="button">ยกเลิก</button>
+            </form>
+          </div>
+        </section>
+
+        <section class="page" id="page-agreement">
+          <div class="panel agreement-panel">
+            <div class="agreement-box">
+              <button class="ghost agreement-back-btn" id="agreement-back-btn" type="button">ย้อนกลับ</button>
+              <h2>ข้อตกลง</h2>
+              <div class="agreement-copy">
+                <h3>ข้อตกลงในการใช้ซอฟต์แวร์</h3>
+                <p>
+                  ซอฟต์แวร์นี้เป็นผลงานที่พัฒนาขึ้นโดย <strong>นางสาว ภคมณ สารชัย</strong>,
+                  <strong>นางสาว สุธีร์ธิดา ปิยะจงวิวัฒน์</strong>,
+                  <strong>นายทักษธร ปราณปรีชากุล</strong> จาก
+                  <strong>โรงเรียนสาธิตมหาวิทยาลัยศรีนครินทรวิโรฒ ประสานมิตร (ฝ่ายมัธยม)</strong>
+                  ภายใต้การดูแลของ <strong>นาย บริรักษ์ พรหมบริรักษ์</strong> ภายใต้โครงการ
+                  <strong>OILive : แพลตฟอร์มรับซื้อน้ำมันประกอบอาหารใช้แล้ว</strong>
+                  ซึ่งสนับสนุนโดย สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติ
+                  โดยมีวัตถุประสงค์เพื่อส่งเสริมให้นักเรียนและนักศึกษาได้เรียนรู้และฝึกทักษะในการพัฒนาซอฟต์แวร์
+                  ลิขสิทธิ์ของซอฟต์แวร์นี้จึงเป็นของผู้พัฒนา
+                  ซึ่งผู้พัฒนาได้อนุญาตให้สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติเผยแพร่ซอฟต์แวร์นี้ตาม
+                  “ต้นฉบับ” โดยไม่มีการแก้ไขดัดแปลงใด ๆ ทั้งสิ้น
+                  ให้แก่บุคคลทั่วไปได้ใช้เพื่อประโยชน์ส่วนบุคคลหรือประโยชน์ทางการศึกษาที่ไม่มีวัตถุประสงค์ในเชิงพาณิชย์โดยไม่คิดค่าตอบแทนการใช้ซอฟต์แวร์
+                  ดังนั้น สำนักงานพัฒนาวิทยาศาสตร์และเทคโนโลยีแห่งชาติ
+                  จึงไม่มีหน้าที่ในการดูแล บำรุงรักษา จัดการอบรมการใช้งาน หรือพัฒนาประสิทธิภาพซอฟต์แวร์
+                  รวมทั้งไม่รับรองความถูกต้องหรือประสิทธิภาพการทำงานของซอฟต์แวร์
+                  ตลอดจนไม่รับประกันความเสียหายต่าง ๆ อันเกิดจากการใช้ซอฟต์แวร์นี้ทั้งสิ้น
+                </p>
+                <h3>License Agreement</h3>
+                <p>
+                  This software is a work developed by <strong>Phakamon Sarachai</strong>,
+                  <strong>Suteetida Piyajongwiwatana</strong>, <strong>Taksatorn Pranpreechakul</strong>
+                  from <strong>Prasarnmit Demonstration School (Secondary)</strong> under the provision of
+                  <strong>Boriruk Promboriruk</strong> under
+                  <strong>OILive : แพลตฟอร์มรับซื้อน้ำมันประกอบอาหารใช้แล้ว</strong>
+                  which has been supported by the National Science and Technology Development Agency (NSTDA),
+                  in order to encourage pupils and students to learn and practice their skills in developing software.
+                  Therefore, the intellectual property of this software shall belong to the developer and the developer gives NSTDA a permission
+                  to distribute this software as an “as is” and non-modified software for a temporary and non-exclusive use without remuneration
+                  to anyone for his or her own purpose or academic purpose, which are not commercial purposes.
+                  In this connection, NSTDA shall not be responsible to the user for taking care, maintaining, training, or developing the efficiency
+                  of this software. Moreover, NSTDA shall not be liable for any error, software efficiency and damages in connection with or arising out of the use of the software.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
