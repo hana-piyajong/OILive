@@ -256,14 +256,15 @@ main {
 }
 
 .entry-stage {
-  min-height: calc(100dvh - 170px);
+  padding: 12px 6px;
+  min-height: calc(96dvh - 170px);
   display: flex;
-  flex-direction: column;
+  align-items: center;
   justify-content: center;
 }
 
 .entry-hero-space {
-  min-height: 56px;
+  display: none;
 }
 
 .form-card,
@@ -403,25 +404,26 @@ h4 {
 }
 
 .auth-card {
-  border-radius: 26px;
-  padding: 22px 26px;
-  border: 1px solid #e2c980;
-  background: #fffdfa;
+  background: #fffef9;
+  border-radius: 18px;
+  border: 1px solid #ecdcae;
+  padding: 18px 14px;
+  box-shadow: 0 4px 16px rgba(173, 136, 34, 0.08);
   width: 100%;
-  max-width: none;
+  max-width: 390px;
   margin: 0 auto;
 }
 
 .auth-main-title {
-  margin: 0 0 12px;
-  font-size: 56px;
-  line-height: 0.95;
+  margin: 0 0 16px;
+  font-size: 42px;
+  line-height: 1;
   font-weight: 700;
 }
 
 #login-form label,
 #register-form label {
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 600;
   gap: 8px;
 }
@@ -429,11 +431,11 @@ h4 {
 #login-form input,
 #register-form input,
 #register-form select {
-  min-height: 56px;
-  border-radius: 22px;
-  border-color: #c6a858;
-  padding: 12px 20px;
-  font-size: 18px;
+  min-height: auto;
+  border-radius: 10px;
+  border-color: #bca56b;
+  padding: 10px;
+  font-size: 16px;
 }
 
 #login-form input::placeholder,
@@ -445,34 +447,36 @@ h4 {
 .forgot-inline-btn {
   border: none;
   background: transparent;
-  color: #982f22;
-  font-size: 17px;
+  color: #8b2424;
+  font-size: 13px;
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
-  margin: 6px 0 12px;
+  margin: -2px 0 2px;
   text-align: left;
+  width: max-content;
+  margin-left: auto;
 }
 
 #login-form > .cta,
 #register-form > .cta {
-  margin-top: 8px;
-  min-height: 66px;
-  border-radius: 28px;
-  font-size: 28px;
+  margin-top: 4px;
+  min-height: 58px;
+  border-radius: 12px;
+  font-size: 24px;
   font-weight: 700;
 }
 
 .secondary-auth-btn {
   width: 100%;
-  min-height: 58px;
-  margin-top: 12px;
-  border-radius: 24px;
+  min-height: auto;
+  margin-top: 10px;
+  border-radius: 12px;
   background: linear-gradient(180deg, #fff3b5 0%, #fff0bf 100%);
   border: 1px solid #ddb94e;
   color: #5f4a0d;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -712,6 +716,10 @@ h4 {
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 12px;
+}
+
+#admin-requests-list {
+  margin-top: 14px;
 }
 
 .admin-filter-actions .ghost,
