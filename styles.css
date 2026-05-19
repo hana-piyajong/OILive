@@ -404,14 +404,17 @@ h4 {
 
 .auth-card {
   border-radius: 26px;
-  padding: 28px 22px;
+  padding: 22px 26px;
   border: 1px solid #e2c980;
   background: #fffdfa;
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
 }
 
 .auth-main-title {
-  margin: 0 0 18px;
-  font-size: 52px;
+  margin: 0 0 12px;
+  font-size: 56px;
   line-height: 0.95;
   font-weight: 700;
 }
@@ -420,17 +423,17 @@ h4 {
 #register-form label {
   font-size: 18px;
   font-weight: 600;
-  gap: 10px;
+  gap: 8px;
 }
 
 #login-form input,
 #register-form input,
 #register-form select {
-  min-height: 58px;
-  border-radius: 20px;
+  min-height: 56px;
+  border-radius: 22px;
   border-color: #c6a858;
-  padding: 14px 18px;
-  font-size: 17px;
+  padding: 12px 20px;
+  font-size: 18px;
 }
 
 #login-form input::placeholder,
@@ -448,23 +451,23 @@ h4 {
   text-decoration: underline;
   cursor: pointer;
   padding: 0;
-  margin: 8px 0 14px;
+  margin: 6px 0 12px;
   text-align: left;
 }
 
 #login-form > .cta,
 #register-form > .cta {
-  margin-top: 12px;
-  min-height: 72px;
-  border-radius: 24px;
-  font-size: 26px;
+  margin-top: 8px;
+  min-height: 66px;
+  border-radius: 28px;
+  font-size: 28px;
   font-weight: 700;
 }
 
 .secondary-auth-btn {
   width: 100%;
-  min-height: 68px;
-  margin-top: 16px;
+  min-height: 58px;
+  margin-top: 12px;
   border-radius: 24px;
   background: linear-gradient(180deg, #fff3b5 0%, #fff0bf 100%);
   border: 1px solid #ddb94e;
@@ -547,6 +550,27 @@ h4 {
   border-radius: 12px;
   border: 1px solid #e8dbb0;
   background: #fffdf2;
+}
+
+#sell-form,
+#edit-profile-form {
+  display: grid;
+  gap: 12px;
+}
+
+#sell-form > .cta,
+#confirm-bill,
+#edit-profile-form > .cta {
+  margin-top: 8px;
+}
+
+#edit-profile-form > .secondary-auth-btn {
+  margin-top: 8px;
+}
+
+#bill-msg,
+#sell-msg {
+  margin-top: 2px;
 }
 
 .home-hero-banner {
@@ -690,6 +714,19 @@ h4 {
   margin-top: 12px;
 }
 
+.admin-filter-actions .ghost,
+.admin-card-action .ghost,
+#confirm-bill,
+#sell-form > .cta,
+#edit-profile-form > .cta,
+#edit-profile-form > .secondary-auth-btn {
+  min-height: 56px;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .admin-list {
   display: grid;
   gap: 12px;
@@ -752,7 +789,7 @@ h4 {
 }
 
 .admin-member-card {
-  padding: 20px;
+  padding: 18px;
   border-radius: 20px;
   width: 100%;
   max-width: 100%;
@@ -763,14 +800,14 @@ h4 {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: flex-start;
-  margin-bottom: 14px;
+  margin-bottom: 12px;
   width: 100%;
   max-width: 100%;
 }
 
 .admin-member-card .admin-card-head strong {
-  font-size: 26px;
-  line-height: 1.1;
+  font-size: 22px;
+  line-height: 1.15;
   min-width: 0;
   white-space: normal;
   overflow-wrap: anywhere;
@@ -778,23 +815,24 @@ h4 {
 }
 
 .admin-member-card .admin-badge {
-  min-height: 48px;
-  padding: 0 18px;
+  min-height: 40px;
+  padding: 0 14px;
   display: inline-flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 13px;
+  align-self: start;
 }
 
 .admin-member-card .admin-card-meta {
-  gap: 12px;
-  font-size: 16px;
+  gap: 10px;
+  font-size: 15px;
   min-width: 0;
   width: 100%;
   max-width: 100%;
 }
 
 .admin-member-card .admin-card-meta strong {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .admin-member-card .admin-card-meta div {
@@ -805,17 +843,18 @@ h4 {
 }
 
 .admin-member-actions {
-  margin-top: 18px;
+  margin-top: 16px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 18px;
+  gap: 14px;
 }
 
 .admin-member-actions .ghost {
-  min-height: 84px;
-  font-size: 20px;
+  min-height: 64px;
+  font-size: 16px;
   font-weight: 600;
-  border-radius: 24px;
+  border-radius: 18px;
+  padding: 10px 12px;
 }
 
 .admin-member-actions .admin-suspend-btn {
@@ -981,6 +1020,10 @@ h4 {
   justify-content: space-between;
   border-bottom: 1px dashed #ddcc97;
   padding: 8px 0;
+}
+
+.bill-box {
+  margin-bottom: 14px;
 }
 
 .bill-box .total-row {
@@ -1362,10 +1405,15 @@ th {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap: 12px;
 }
 
 #goto-edit-profile {
-  margin-top: 44px;
+  margin-top: 58px;
+  margin-left: auto;
+  width: auto;
+  min-width: 176px;
+  flex: 0 0 auto;
 }
 
 .profile-social-card h3 {

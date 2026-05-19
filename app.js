@@ -1050,7 +1050,11 @@ function renderProfile() {
         <div class="admin-kpi"><div>ประเภทบัญชี</div><strong>${roleLabel(u.role)}</strong></div>
         <div class="admin-kpi"><div>คะแนนสะสม</div><strong>${stats.totalPoints.toLocaleString("th-TH")}</strong></div>
         <div class="admin-kpi"><div>ปริมาณสะสม</div><strong>${stats.totalVolume.toFixed(1)} ลิตร</strong></div>
-        <div class="admin-kpi"><div>บัญชีรับเงิน</div><strong>${u.bank || "-"} ${u.bankAccount || ""}</strong></div>
+        ${
+          u.role === "collector"
+            ? `<div class="admin-kpi"><div>วันทำงาน</div><strong>${u.workDay || "-"}</strong></div>`
+            : `<div class="admin-kpi"><div>บัญชีรับเงิน</div><strong>${u.bank || "-"} ${u.bankAccount || ""}</strong></div>`
+        }
       </div>
       <div class="profile-box">ที่อยู่หลัก: ${u.addressDisplay || buildAddressDisplay(u) || "-"}</div>
       ${
